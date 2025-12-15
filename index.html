@@ -3,355 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>uTools - Your All-in-One Toolkit</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Image Converter Tool</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --bg-color: #1E1E2F;
-            --text-color: #EAEAEA;
-            --header-bg: #2B2D42;
-            --accent-color: #FFD700;
-            --card-bg: #3A3D5B;
-            --card-hover-bg: #FFD700;
-            --card-hover-text: #1E1E2F;
-            --button-hover: #E6C200;
-            --shadow: rgba(255, 215, 0, 0.2);
+            font-family: Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: var(--header-bg);
-            padding: 20px 0;
+            background: #1E1E2F;
+            color: #EAEAEA;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            margin-bottom: 40px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 20px;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .logo-icon {
-            color: var(--accent-color);
-            font-size: 2.5rem;
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            color: var(--accent-color);
-            letter-spacing: 2px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        .tagline {
-            font-size: 1.1rem;
-            margin-top: 10px;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Main Content */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            max-width: 600px;
+            margin: auto;
+            background: #2B2D42;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 215, 0, 0.2);
         }
 
-        /* Tools Grid */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        /* Tool Cards */
-        .tool-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .tool-card:hover {
-            background-color: var(--card-hover-bg);
-            color: var(--card-hover-text);
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px var(--shadow);
-        }
-
-        .tool-card:hover .tool-icon {
-            color: var(--card-hover-text);
-        }
-
-        .tool-icon {
-            font-size: 2.2rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .tool-card h2 {
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        .tool-card:hover h2 {
-            color: var(--card-hover-text);
-        }
-
-        .tool-card p {
-            font-size: 1rem;
-            margin-bottom: 25px;
-            flex-grow: 1;
-            opacity: 0.9;
-        }
-
-        .tool-card:hover p {
-            opacity: 1;
-        }
-
-        /* Button Styles */
-        .tool-button {
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
             width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            border-radius: 5px;
+            border: none;
         }
 
-        .tool-button:hover {
-            background-color: var(--button-hover);
-            transform: scale(1.03);
+        button {
+            background: #FFD700;
+            color: #1E1E2F;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            color: rgba(234, 234, 234, 0.7);
+        button:hover {
+            background: #E6C200;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            .tagline {
-                font-size: 1rem;
-                padding: 0 15px;
-            }
-
-            .tool-card {
-                padding: 20px;
-            }
+        .preview {
+            margin-top: 20px;
         }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .tool-card h2 {
-                font-size: 1.4rem;
-            }
-
-            .tool-card p {
-                font-size: 0.95rem;
-            }
-
-            .tool-button {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Animation for page load */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tool-card {
-            animation: fadeIn 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        .tool-card:nth-child(1) { animation-delay: 0.1s; }
-        .tool-card:nth-child(2) { animation-delay: 0.2s; }
-        .tool-card:nth-child(3) { animation-delay: 0.3s; }
-        .tool-card:nth-child(4) { animation-delay: 0.4s; }
-        .tool-card:nth-child(5) { animation-delay: 0.5s; }
-        .tool-card:nth-child(6) { animation-delay: 0.6s; }
-        .tool-card:nth-child(7) { animation-delay: 0.7s; }
-        .tool-card:nth-child(8) { animation-delay: 0.8s; }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <div class="logo-container">
-                <i class="fas fa-tools logo-icon"></i>
-                <h1>uTools</h1>
-            </div>
-            <p class="tagline">Your all-in-one toolkit for everyday tasks. Convert, compress, calculate, and more with our premium tools.</p>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-        <div class="tools-grid">
-            <!-- Image Converter Card -->
-            <div class="tool-card">
-                <i class="fas fa-file-image tool-icon"></i>
-                <h2>Image Converter</h2>
-                <p>Convert images between different formats (JPG, PNG, WEBP, GIF) with high quality and fast processing.</p>
-                <button class="tool-button" data-tool="Image Converter">Use Tool</button>
-            </div>
-
-            <!-- Image Compressor Card -->
-            <div class="tool-card">
-                <i class="fas fa-compress-alt tool-icon"></i>
-                <h2>Image Compressor</h2>
-                <p>Reduce image file sizes without noticeable quality loss. Perfect for optimizing web images.</p>
-                <button class="tool-button" data-tool="Image Compressor">Use Tool</button>
-            </div>
-
-            <!-- Image Crop Card -->
-            <div class="tool-card">
-                <i class="fas fa-crop-alt tool-icon"></i>
-                <h2>Image Crop</h2>
-                <p>Crop and resize images to your desired dimensions. Supports precise selection and aspect ratio locking.</p>
-                <button class="tool-button" data-tool="Image Crop">Use Tool</button>
-            </div>
-
-            <!-- Video Converter Card -->
-            <div class="tool-card">
-                <i class="fas fa-video tool-icon"></i>
-                <h2>Video Converter</h2>
-                <p>Convert videos between popular formats (MP4, AVI, MOV, MKV) with customizable quality settings.</p>
-                <button class="tool-button" data-tool="Video Converter">Use Tool</button>
-            </div>
-
-            <!-- Age Calculator Card -->
-            <div class="tool-card">
-                <i class="fas fa-birthday-cake tool-icon"></i>
-                <h2>Age Calculator</h2>
-                <p>Calculate exact age in years, months, and days. Perfect for tracking milestones and anniversaries.</p>
-                <button class="tool-button" data-tool="Age Calculator">Use Tool</button>
-            </div>
-
-            <!-- EMI Calculator Card -->
-            <div class="tool-card">
-                <i class="fas fa-calculator tool-icon"></i>
-                <h2>EMI Calculator</h2>
-                <p>Calculate Equated Monthly Installments for loans with detailed breakdown of principal and interest.</p>
-                <button class="tool-button" data-tool="EMI Calculator">Use Tool</button>
-            </div>
-
-            <!-- SIP Calculator Card -->
-            <div class="tool-card">
-                <i class="fas fa-chart-line tool-icon"></i>
-                <h2>SIP Calculator</h2>
-                <p>Plan your investments with Systematic Investment Plan calculator to estimate future returns.</p>
-                <button class="tool-button" data-tool="SIP Calculator">Use Tool</button>
-            </div>
-
-            <!-- Audio Trim Card -->
-            <div class="tool-card">
-                <i class="fas fa-music tool-icon"></i>
-                <h2>Audio Trim</h2>
-                <p>Trim and edit audio files with precision. Cut unwanted parts and export in high quality.</p>
-                <button class="tool-button" data-tool="Audio Trim">Use Tool</button>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="container">
-        <p>© 2023 uTools. All rights reserved. | Premium tools for everyday tasks</p>
-    </footer>
+    <div class="container">
+        <h2>Image Converter</h2>
+        <input type="file" id="imageInput" accept="image/*">
+        <select id="formatSelect">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="webp">WEBP</option>
+        </select>
+        <button onclick="convertImage()">Convert Image</button>
+        <p id="status"></p>
+        <div class="preview" id="previewContainer"></div>
+    </div>
 
     <script>
-        // JavaScript for button click alerts
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all tool buttons
-            const toolButtons = document.querySelectorAll('.tool-button');
-            
-            // Add click event listener to each button
-            toolButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const toolName = this.getAttribute('data-tool');
+        function convertImage() {
+            const fileInput = document.getElementById('imageInput');
+            const format = document.getElementById('formatSelect').value;
+            const status = document.getElementById('status');
+            const previewContainer = document.getElementById('previewContainer');
+
+            if (!fileInput.files.length) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            status.textContent = 'Processing image...';
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
                     
-                    // Show alert as per requirements
-                    alert(`Redirecting to ${toolName}`);
-                    
-                    // In a real implementation, you would redirect to the actual tool page
-                    // window.location.href = `/${toolName.toLowerCase().replace(' ', '-')}`;
-                });
-            });
-            
-            // Add some interactive effects for better user experience
-            const toolCards = document.querySelectorAll('.tool-card');
-            
-            toolCards.forEach(card => {
-                // Add keyboard accessibility
-                card.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        const button = this.querySelector('.tool-button');
-                        const toolName = button.getAttribute('data-tool');
-                        alert(`Redirecting to ${toolName}`);
-                    }
-                });
-                
-                // Make cards focusable for accessibility
-                card.setAttribute('tabindex', '0');
-            });
-        });
+                    const convertedImage = canvas.toDataURL(`image/${format}`);
+                    previewContainer.innerHTML = `<img src="${convertedImage}" style="max-width: 100%; border-radius: 5px; margin-top: 10px;">`;
+                    const downloadBtn = document.createElement('a');
+                    downloadBtn.href = convertedImage;
+                    downloadBtn.download = `converted_image.${format}`;
+                    downloadBtn.textContent = 'Download Image';
+                    downloadBtn.style.display = 'block';
+                    downloadBtn.style.background = '#FFD700';
+                    downloadBtn.style.color = '#1E1E2F';
+                    downloadBtn.style.padding = '10px';
+                    downloadBtn.style.marginTop = '10px';
+                    downloadBtn.style.textDecoration = 'none';
+                    downloadBtn.style.borderRadius = '5px';
+                    previewContainer.appendChild(downloadBtn);
+                    status.textContent = '';
+                };
+            };
+            reader.readAsDataURL(file);
+        }
     </script>
 </body>
 </html>
+
+  
