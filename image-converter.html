@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Image Converter | Multi Tool Hub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0f1117;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* ================= CONTAINER ================= */
+.converter {
+  background: #161a23;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.converter h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+/* ================= DROP ZONE ================= */
+.drop-zone {
+  border: 2px dashed #2f3545;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  background: #0f1117;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.drop-zone.dragover {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.drop-zone p {
+  margin: 8px 0;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.drop-zone span {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Hide file input */
+.drop-zone input {
+  display: none;
+}
+
+/* ================= SELECT ================= */
+select {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #0f1117;
+  color: #e5e7eb;
+}
+
+/* ================= BUTTON ================= */
+button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= STATUS ================= */
+.status {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+/* ================= PREVIEW ================= */
+.preview {
+  margin-top: 20px;
+  text-align: center;
+  display: none;
+}
+
+.preview img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #2f3545;
+}
+
+/* ================= DOWNLOAD ================= */
+.download-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #10b981;
+  color: #022c22;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 500px) {
+  .converter {
+    margin: 10px;
+    padding: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="converter">
+  <h1>🖼️ Image Converter</h1>
+
+  <!-- Drag & Drop Zone -->
+  <label class="drop-zone" id="dropZone">
+    <input type="file" id="imageInput" accept="image/*" />
+    <p>Drag & Drop your image here</p>
+    <p>or <span>Click to Browse</span></p>
+  </label>
+
+  <select id="formatSelect">
+    <option value="png">PNG</option>
+    <option value="jpeg">JPG / JPEG</option>
+    <option value="webp">WEBP</option>
+    <option value="bmp">BMP</option>
+    <option value="gif">GIF</option>
+    <option value="tiff">TIFF</option>
+    <option value="pdf">PDF</option>
+  </select>
+
+  <button id="convertBtn">Convert Image</button>
+
+  <div class="status" id="statusText"></div>
+
+  <div class="preview" id="previewBox">
+    <img id="previewImage" />
+    <br />
+    <a id="downloadLink" class="download-btn" download>Download</a>
+  </div>
+</div>
+
+<script>
+const dropZone = document.getElementById("dropZone");
+const imageInput = document.getElementById("imageInput");
+const formatSelect = document.getElementById("formatSelect");
+const convertBtn = document.getElementById("convertBtn");
+const statusText = document.getElementById("statusText");
+const previewBox = document.getElementById("previewBox");
+const previewImage = document.getElementById("previewImage");
+const downloadLink = document.getElementById("downloadLink");
+
+/* ============ DRAG & DROP EVENTS ============ */
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  imageInput.files = e.dataTransfer.files;
+});
+
+/* ============ CONVERT LOGIC ============ */
+convertBtn.addEventListener("click", () => {
+  const file = imageInput.files[0];
+  const format = formatSelect.value;
+
+  if (!file) {
+    alert("Please upload an image.");
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    alert("Unsupported file type.");
+    return;
+  }
+
+  statusText.textContent = "Processing image...";
+  previewBox.style.display = "none";
+  convertBtn.disabled = true;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      let mimeType = "image/" + format;
+      if (format === "jpeg") mimeType = "image/jpeg";
+
+      let dataURL;
+
+      if (format === "pdf") {
+        dataURL = canvas.toDataURL("image/png");
+        downloadLink.download = "converted-image.png";
+      } else {
+        dataURL = canvas.toDataURL(mimeType, 0.92);
+        downloadLink.download = "converted-image." + format;
+      }
+
+      previewImage.src = dataURL;
+      downloadLink.href = dataURL;
+
+      previewBox.style.display = "block";
+      statusText.textContent = "Conversion completed!";
+      convertBtn.disabled = false;
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+
+</body>
+</html>
